@@ -1,18 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PrzestępneNaBazieDanych.Data;
+using PrzestępneNaBazieDanych.Interface;
 using PrzestępneNaBazieDanych.Models;
+using System;
 
 namespace PrzestępneNaBazieDanych.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly ApplicationDbContext _context;
-        public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
+        private readonly LeapYearInterface _LYService;
+
+        public IndexModel(ILogger<IndexModel> logger, LeapYearInterface LYService)
         {
             _logger = logger;
-            _context = context;
+            _LYService = LYService;
         }
 
         public string Result { get; set; }
@@ -36,9 +39,7 @@ namespace PrzestępneNaBazieDanych.Pages
                     Result = $"{Przestepne.Name} NIE urodzili się w roku przestępnym.";
                     Przestepne.Result = "Nie przestępne";
                 }
-
-                _context.Przestepne.Add(Przestepne);
-                _context.SaveChanges();
+                _LYService.SauvegardeIntoDB( Przestepne );
             }
         }
         public void OnGet()

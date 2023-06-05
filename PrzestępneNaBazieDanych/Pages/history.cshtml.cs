@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PrzestępneNaBazieDanych.Data;
+using PrzestępneNaBazieDanych.Interface;
 using PrzestępneNaBazieDanych.Models;
 
 namespace PrzestępneNaBazieDanych.Pages
@@ -9,19 +10,18 @@ namespace PrzestępneNaBazieDanych.Pages
     {
 
         private readonly ILogger<historyModel> _logger;
-        private readonly ApplicationDbContext _context;
-        public historyModel(ILogger<historyModel> logger, ApplicationDbContext context)
+        private readonly LeapYearInterface _LYService;
+        public historyModel(ILogger<historyModel> logger, LeapYearInterface LYService)
         {
             _logger = logger;
-            _context = context;
+            _LYService = LYService;
         }
 
         public IList<Przestepne> PrzestepneLata { get; set; }
         public IList<Przestepne> PrzestepneLataPosortowane { get; set; }
         public void OnGet()
         {
-            PrzestepneLata = _context.Przestepne.ToList();
-            PrzestepneLataPosortowane = PrzestepneLata.OrderByDescending(o => o.Date).ToList();
+            PrzestepneLataPosortowane = _LYService.WczytajPosortowane();
         }
     }
 }
