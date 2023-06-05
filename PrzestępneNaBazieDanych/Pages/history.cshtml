@@ -1,0 +1,16 @@
+﻿@page
+@model PrzestępneNaBazieDanych.Pages.historyModel
+@{
+}
+
+<div>
+    @foreach (var item in Model.PrzestepneLataPosortowane)
+    {
+        <p>
+            @Html.DisplayFor(modelItem => item.Year) ||
+            @Html.DisplayFor(modelItem => item.Name) ||
+            @Html.DisplayFor(modelItem => item.Date) ||
+            @Html.DisplayFor(modelItem => item.Result)
+        </p>
+    }
+</div>
