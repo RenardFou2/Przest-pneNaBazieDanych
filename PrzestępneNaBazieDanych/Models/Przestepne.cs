@@ -21,5 +21,12 @@ namespace PrzestępneNaBazieDanych.Models
 
         [Display(Name = "Result")]
         public string? Result { get; set; }
+
+        [Display(Name = "ID")]
+        public string? IDofUser { get; set; }
+        
+        [Display(Name = "LOGIN")]
+        public string? UserLogin { get; set; }
+
     }
 }

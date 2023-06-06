@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,9 +15,11 @@ namespace PrzestępneNaBazieDanych.Pages
     public class CreateModel : PageModel
     {
         private readonly LeapYearInterface _LYService;
-        public CreateModel(LeapYearInterface LYService)
+        private readonly UserManager<IdentityUser> _userManager;
+        public CreateModel(LeapYearInterface LYService, UserManager<IdentityUser> userManager)
         {
             _LYService = LYService;
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -33,6 +36,13 @@ namespace PrzestępneNaBazieDanych.Pages
         {
             if (ModelState.IsValid || Przestepne != null)
             {
+                var user = _userManager.GetUserAsync(User);
+                var ID = _userManager.GetUserId;
+                var login = _userManager.GetUserName;
+
+                Przestepne.UserLogin = login.ToString();
+                Przestepne.IDofUser = ID.ToString();
+
                 DateTime time = DateTime.Now;
                 Przestepne.Date = time.ToString("dd/MM/yyyy HH:mm:ss");
 
