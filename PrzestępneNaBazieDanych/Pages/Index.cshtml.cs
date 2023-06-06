@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,16 @@ namespace PrzestępneNaBazieDanych.Pages
 
         public IList<Przestepne> Przestepne { get;set; } = default!;
 
-        public void OnGet()
+        public async Task OnGetAsync(string searchString, int? pageIndex)
         {
-            Przestepne = _LYService.GetPrzestepne();
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+
+            var pageSize = Configuration.GetValue("PageSize", 4);
+            Przestepne = await PaginatedList<Przestepne>.CreateAsync(
+                _context.Przestepne, pageIndex ?? 1, pageSize);
         }
     }
 }
