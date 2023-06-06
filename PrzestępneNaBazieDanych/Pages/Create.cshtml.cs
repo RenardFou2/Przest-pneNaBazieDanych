@@ -16,6 +16,7 @@ namespace PrzestępneNaBazieDanych.Pages
     {
         private readonly LeapYearInterface _LYService;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ApplicationDbContext _context; 
         public CreateModel(LeapYearInterface LYService, UserManager<IdentityUser> userManager)
         {
             _LYService = LYService;
@@ -37,11 +38,11 @@ namespace PrzestępneNaBazieDanych.Pages
             if (ModelState.IsValid || Przestepne != null)
             {
                 var user = _userManager.GetUserAsync(User);
-                var ID = _userManager.GetUserId;
-                var login = _userManager.GetUserName;
+                var ID = _userManager.GetUserId(HttpContext.User);
+                var login = _userManager.GetUserName(HttpContext.User);
 
-                Przestepne.UserLogin = login.ToString();
-                Przestepne.IDofUser = ID.ToString();
+                Przestepne.UserLogin = login;
+                Przestepne.IDofUser = ID;
 
                 DateTime time = DateTime.Now;
                 Przestepne.Date = time.ToString("dd/MM/yyyy HH:mm:ss");
