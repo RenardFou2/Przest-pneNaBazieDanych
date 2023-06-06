@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using PrzestępneNaBazieDanych.Data;
 using PrzestępneNaBazieDanych.Models;
 
@@ -12,21 +7,42 @@ namespace PrzestępneNaBazieDanych.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly PrzestępneNaBazieDanych.Data.ApplicationDbContext _context;
-
-        public IndexModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context)
+        private readonly ILogger<IndexModel> _logger;
+        private readonly ApplicationDbContext _context;
+        public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
         }
 
-        public IList<Przestepne> Przestepne { get;set; } = default!;
+        public string Result { get; set; }
 
-        public async Task OnGetAsync()
+        [BindProperty]
+        public Przestepne Przestepne { get; set; }
+        public void OnPost()
         {
-            if (_context.Przestepne != null)
+            DateTime time = DateTime.Now;
+            Przestepne.Date = time.ToString("dd/MM/yyyy HH:mm:ss");
+
+            if (ModelState.IsValid)
             {
-                Przestepne = await _context.Przestepne.ToListAsync();
+                if (Przestepne.Year % 4 == 0 && (Przestepne.Year % 100 != 0 || Przestepne.Year % 400 == 0))
+                {
+                    Result = $"{Przestepne.Name} urodzili się w roku przestępnym.";
+                    Przestepne.Result = "Przestępne";
+                }
+                else
+                {
+                    Result = $"{Przestepne.Name} NIE urodzili się w roku przestępnym.";
+                    Przestepne.Result = "Nie przestępne";
+                }
+
+                _context.Przestepne.Add(Przestepne);
+                _context.SaveChanges();
             }
+        }
+        public void OnGet()
+        {
         }
     }
 }
