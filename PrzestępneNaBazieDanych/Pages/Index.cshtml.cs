@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PrzestępneNaBazieDanych.Data;
 using PrzestępneNaBazieDanych.Models;
 
@@ -7,42 +12,21 @@ namespace PrzestępneNaBazieDanych.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-        private readonly ApplicationDbContext _context;
-        public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
+        private readonly PrzestępneNaBazieDanych.Data.ApplicationDbContext _context;
+
+        public IndexModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
-        public string Result { get; set; }
+        public IList<Przestepne> Przestepne { get;set; } = default!;
 
-        [BindProperty]
-        public Przestepne Przestepne { get; set; }
-        public void OnPost()
+        public async Task OnGetAsync()
         {
-            DateTime time = DateTime.Now;
-            Przestepne.Date = time.ToString("dd/MM/yyyy HH:mm:ss");
-
-            if (ModelState.IsValid)
+            if (_context.Przestepne != null)
             {
-                if (Przestepne.Year % 4 == 0 && (Przestepne.Year % 100 != 0 || Przestepne.Year % 400 == 0))
-                {
-                    Result = $"{Przestepne.Name} urodzili się w roku przestępnym.";
-                    Przestepne.Result = "Przestępne";
-                }
-                else
-                {
-                    Result = $"{Przestepne.Name} NIE urodzili się w roku przestępnym.";
-                    Przestepne.Result = "Nie przestępne";
-                }
-
-                _context.Przestepne.Add(Przestepne);
-                _context.SaveChanges();
+                Przestepne = await _context.Przestepne.ToListAsync();
             }
-        }
-        public void OnGet()
-        {
         }
     }
 }
