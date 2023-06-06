@@ -52,3 +52,19 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.Przestepne.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Przestepne.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Przestepne.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Przestepne.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

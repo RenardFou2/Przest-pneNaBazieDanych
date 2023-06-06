@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +11,10 @@ using PrzestępneNaBazieDanych.Models;
 
 namespace PrzestępneNaBazieDanych.Pages
 {
+    [Authorize (Roles = "NoOne")]
     public class DeleteModel : PageModel
     {
+
         private readonly PrzestępneNaBazieDanych.Data.ApplicationDbContext _context;
 
         public DeleteModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context)
@@ -20,7 +23,7 @@ namespace PrzestępneNaBazieDanych.Pages
         }
 
         [BindProperty]
-      public Przestepne Przestepne { get; set; } = default!;
+        public Przestepne Przestepne { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
