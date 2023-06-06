@@ -1,4 +1,5 @@
-﻿using PrzestępneNaBazieDanych.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PrzestępneNaBazieDanych.Data;
 using PrzestępneNaBazieDanych.Interface;
 using PrzestępneNaBazieDanych.Models;
 using System;

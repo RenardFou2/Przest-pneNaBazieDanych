@@ -23,12 +23,9 @@ namespace PrzestępneNaBazieDanych.Pages
 
         public IList<Przestepne> Przestepne { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            if (_context.Przestepne != null)
-            {
-                Przestepne = await _context.Przestepne.ToListAsync();
-            }
+            Przestepne = _LYService.GetPrzestepne();
         }
     }
 }
