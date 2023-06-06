@@ -16,9 +16,10 @@ namespace PrzestępneNaBazieDanych.Pages
         private readonly PrzestępneNaBazieDanych.Data.ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public CreateModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context, )
+        public CreateModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
