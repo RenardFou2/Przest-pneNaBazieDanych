@@ -26,20 +26,30 @@ namespace PrzestępneNaBazieDanych.Pages
 
         [BindProperty]
         public Przestepne Przestepne { get; set; } = default!;
-        
+        public string Result { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public void OnPost()
         {
-          if (!ModelState.IsValid || _context.Przestepne == null || Przestepne == null)
+            if (ModelState.IsValid || _context.Przestepne != null || Przestepne != null)
             {
-                return Page();
+                DateTime time = DateTime.Now;
+                Przestepne.Date = time.ToString("dd/MM/yyyy HH:mm:ss");
+
+                if (Przestepne.Year % 4 == 0 && (Przestepne.Year % 100 != 0 || Przestepne.Year % 400 == 0))
+                {
+                    Result = $"{Przestepne.Name} urodzili się w roku przestępnym.";
+                    Przestepne.Result = "Przestępne";
+                }
+                else
+                {
+                    Result = $"{Przestepne.Name} NIE urodzili się w roku przestępnym.";
+                    Przestepne.Result = "Nie przestępne";
+                }
+                _context.Przestepne.Add(Przestepne);
+                _context.SaveChanges();
             }
 
-            _context.Przestepne.Add(Przestepne);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
         }
     }
 }
