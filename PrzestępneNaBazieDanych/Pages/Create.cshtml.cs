@@ -33,6 +33,9 @@ namespace PrzestępneNaBazieDanych.Pages
         {
           if (ModelState.IsValid || _context.Przestepne != null || Przestepne != null)
             {
+                DateTime time = DateTime.Now;
+                Przestepne.Date = time.ToString("dd/MM/yyyy HH:mm:ss");
+
                 if (Przestepne.Year % 4 == 0 && (Przestepne.Year % 100 != 0 || Przestepne.Year % 400 == 0))
                 {
                     Result = $"{Przestepne.Name} urodzili się w roku przestępnym.";
