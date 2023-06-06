@@ -1,44 +1,54 @@
 ﻿@page
-@model IndexModel
+@model PrzestępneNaBazieDanych.Pages.IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Index</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Przestepne.Year" class="control-label"></label>
-                <input asp-for="Przestepne.Year" class="form-control" />
-                <span asp-validation-for="Przestepne.Year" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Przestepne.Name" class="control-label"></label>
-                <input asp-for="Przestepne.Name" class="form-control" />
-                <span asp-validation-for="Przestepne.Name" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <button type="submit">Zatwierdź</button>
-            </div>
-        </form>
-    </div>
-</div>
-<br />
-<br />
-
-@if (Model.Result != null)
-{
-    <p class="text-success">@Model.Result</p>
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Przestepne[0].Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Przestepne[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Przestepne[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Przestepne[0].Result)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Przestepne) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
 }
-<br />
-<br />
-<div>
-    <a asp-page="./history">Sprawdź historię</a>
-</div>
+    </tbody>
+</table>
