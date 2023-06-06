@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PrzestępneNaBazieDanych.Data;
+using PrzestępneNaBazieDanych.Interface;
 using PrzestępneNaBazieDanych.Models;
 
 namespace PrzestępneNaBazieDanych.Pages
 {
     public class CreateModel : PageModel
     {
-        private readonly PrzestępneNaBazieDanych.Data.ApplicationDbContext _context;
-
-        public CreateModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context)
+        private readonly LeapYearInterface _LYService;
+        public CreateModel(LeapYearInterface LYService)
         {
-            _context = context;
+            _LYService = LYService;
         }
 
         public IActionResult OnGet()
@@ -31,7 +31,7 @@ namespace PrzestępneNaBazieDanych.Pages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public void OnPost()
         {
-            if (ModelState.IsValid || _context.Przestepne != null || Przestepne != null)
+            if (ModelState.IsValid || Przestepne != null)
             {
                 DateTime time = DateTime.Now;
                 Przestepne.Date = time.ToString("dd/MM/yyyy HH:mm:ss");
@@ -46,10 +46,8 @@ namespace PrzestępneNaBazieDanych.Pages
                     Result = $"{Przestepne.Name} NIE urodzili się w roku przestępnym.";
                     Przestepne.Result = "Nie przestępne";
                 }
-                _context.Przestepne.Add(Przestepne);
-                _context.SaveChanges();
+                _LYService.SauvegardeIntoDB(Przestepne);
             }
-
         }
     }
 }

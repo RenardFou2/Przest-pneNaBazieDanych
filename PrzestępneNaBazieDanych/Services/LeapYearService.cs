@@ -25,5 +25,10 @@ namespace PrzestępneNaBazieDanych.Services
             return PrzestepneLata.OrderByDescending(o => o.Date).ToList();
         }
 
+        public IList<Przestepne> GetPrzestepne()
+        {
+            return _context.Przestepne.ToList();
+        }
+
     }
 }

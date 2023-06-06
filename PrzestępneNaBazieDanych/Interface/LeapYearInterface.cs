@@ -7,5 +7,6 @@ namespace PrzestępneNaBazieDanych.Interface
     {
         public void SauvegardeIntoDB(Przestepne item);
         public IList<Przestepne> WczytajPosortowane();
+        public IList<Przestepne> GetPrzestepne();
     }
 }

@@ -16,9 +16,8 @@ namespace PrzestępneNaBazieDanych.Pages
         private readonly PrzestępneNaBazieDanych.Data.ApplicationDbContext _context;
         private readonly LeapYearInterface _LYService;
 
-        public IndexModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context, LeapYearInterface LYService)
+        public IndexModel(LeapYearInterface LYService)
         {
-            _context = context;
             _LYService = LYService;
         }
 
