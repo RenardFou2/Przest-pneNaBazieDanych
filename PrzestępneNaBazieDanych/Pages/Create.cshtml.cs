@@ -14,8 +14,9 @@ namespace PrzestępneNaBazieDanych.Pages
     public class CreateModel : PageModel
     {
         private readonly PrzestępneNaBazieDanych.Data.ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CreateModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context)
+        public CreateModel(PrzestępneNaBazieDanych.Data.ApplicationDbContext context, )
         {
             _context = context;
         }
