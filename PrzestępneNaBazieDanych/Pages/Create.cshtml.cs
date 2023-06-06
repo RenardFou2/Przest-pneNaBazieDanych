@@ -29,7 +29,7 @@ namespace PrzestępneNaBazieDanych.Pages
         public string Result { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async void OnPostAsync()
+        public void OnPost()
         {
           if (ModelState.IsValid || _context.Przestepne != null || Przestepne != null)
             {
@@ -47,7 +47,7 @@ namespace PrzestępneNaBazieDanych.Pages
                     Przestepne.Result = "Nie przestępne";
                 }
                 _context.Przestepne.Add(Przestepne);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
 
         }
